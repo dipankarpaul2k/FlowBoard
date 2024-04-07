@@ -21,19 +21,19 @@ export default function AuthPage() {
 
   const handleAuthSubmit = async () => {
     setLoading(true);
-    try {
+    try { // const userData = 
       if (isLogin) {
-        await authService.login({
+        const userData = await authService.login({
           email: email,
           password: password,
         });
-        setLoginStatus(true);
+        setLoginStatus(true, userData);
       } else {
-        await authService.createAccount({
+        const userData = await authService.createAccount({
           email: email,
           password: password,
         });
-        setLoginStatus(true);
+        setLoginStatus(true, userData);
       }
     } catch (error) {
       console.log(error.message);

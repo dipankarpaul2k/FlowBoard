@@ -11,10 +11,29 @@ import {
 // import component
 import ModalHeader from "../../components/utils/ModalHeader";
 import { colors } from "../../theme";
+import dbService from "../../appwrite/db";
+import useAuthStore from "../../stores/authStore";
 
 export default function CreateBoardModal({ closeModal }) {
+  const userData = useAuthStore((s) => s.userData);
   const [boardName, setBoardName] = useState("");
   const [color, setColor] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const handleCreateBoard = async () => {
+    try {
+      setLoading(true);
+      await dbService.createBoard({
+        board_name: boardName,
+        color: colors[color],
+        user_id: userData.$id,
+      });
+      closeModal();
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -46,7 +65,12 @@ export default function CreateBoardModal({ closeModal }) {
               ))}
             </Stack>
           </Stack>
-          <Button size="large" variant="contained">
+          <Button
+            size="large"
+            variant="contained"
+            disabled={loading}
+            onClick={handleCreateBoard}
+          >
             Create
           </Button>
         </Stack>

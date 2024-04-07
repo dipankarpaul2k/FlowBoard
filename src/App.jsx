@@ -38,7 +38,7 @@ function App() {
 
   useEffect(() => {
     authService.getCurrentUser().then((userData) => {
-      setLoginStatus(!!userData);
+      setLoginStatus(!!userData, userData);
     });
   }, []);
 

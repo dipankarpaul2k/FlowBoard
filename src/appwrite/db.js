@@ -1,93 +1,99 @@
 import env from "../envConfig";
-import { Client, ID, Databases, Storage, Query } from "appwrite";
+import { Client, ID, Databases, Query } from "appwrite";
 
 export class DbService {
   client = new Client();
   databases;
 
   constructor() {
-    this.client
-      .setEndpoint(env.appwriteUrl)
-      .setProject(env.appwriteProjectId);
+    this.client.setEndpoint(env.appwriteUrl).setProject(env.appwriteProjectId);
     this.databases = new Databases(this.client);
   }
 
-  async createPost({ title, slug, content, featuredImage, status, userId }) {
+  // Board API methods
+  async createBoard({ board_name, color, user_id }) {
     try {
       return await this.databases.createDocument(
-        env.appwriteDatabaseId,
-        env.appwriteCollectionId,
-        slug,
+        env.appwriteDbId,
+        env.appwriteBoardsColId,
+        ID.unique(),
         {
-          title,
-          content,
-          featuredImage,
-          status,
-          userId,
+          board_name,
+          color,
+          user_id,
         }
       );
     } catch (error) {
-      console.log("Appwrite serive :: createPost :: error", error);
+      console.log("Appwrite serive :: createBoard :: error", error);
     }
   }
 
-  async updatePost(slug, { title, content, featuredImage, status }) {
+  async updateBoard(id, { board_name, color }) {
     try {
       return await this.databases.updateDocument(
-        env.appwriteDatabaseId,
-        env.appwriteCollectionId,
-        slug,
+        env.appwriteDbId,
+        env.appwriteBoardsColId,
+        id,
         {
-          title,
-          content,
-          featuredImage,
-          status,
+          board_name,
+          color,
         }
       );
     } catch (error) {
-      console.log("Appwrite serive :: updatePost :: error", error);
+      console.log("Appwrite serive :: updateBoard :: error", error);
     }
   }
 
-  async deletePost(slug) {
+  async deleteBoard(id) {
     try {
       await this.databases.deleteDocument(
-        env.appwriteDatabaseId,
-        env.appwriteCollectionId,
-        slug
+        env.appwriteDbId,
+        env.appwriteBoardsColId,
+        id
       );
       return true;
     } catch (error) {
-      console.log("Appwrite serive :: deletePost :: error", error);
+      console.log("Appwrite serive :: deleteBoard :: error", error);
       return false;
     }
   }
 
-  async getPost(slug) {
+  async getBoard(id) {
     try {
       return await this.databases.getDocument(
-        env.appwriteDatabaseId,
-        env.appwriteCollectionId,
-        slug
+        env.appwriteDbId,
+        env.appwriteBoardsColId,
+        id
       );
     } catch (error) {
-      console.log("Appwrite serive :: getPost :: error", error);
+      console.log("Appwrite serive :: getBoard :: error", error);
       return false;
     }
   }
 
-  async getPosts(queries = [Query.equal("status", "active")]) {
+  async getAllBoards(userId) {
     try {
       return await this.databases.listDocuments(
-        env.appwriteDatabaseId,
-        env.appwriteCollectionId,
-        queries
+        env.appwriteDbId,
+        env.appwriteBoardsColId,
+        [Query.equal("user_id", userId)]
       );
     } catch (error) {
-      console.log("Appwrite serive :: getPosts :: error", error);
+      console.log("Appwrite serive :: getAllBoards :: error", error);
       return false;
     }
   }
+
+  // Task API methods
+  async createTask() {}
+
+  async updateTask() {}
+
+  async deleteTask() {}
+
+  async getTask() {}
+
+  async getAllTasks() {}
 }
 
 const dbService = new DbService();
