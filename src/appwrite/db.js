@@ -72,11 +72,13 @@ export class DbService {
   }
 
   async getAllBoards(userId) {
+    const queries = [Query.equal("user_id", userId)];
+
     try {
       return await this.databases.listDocuments(
         env.appwriteDbId,
         env.appwriteBoardsColId,
-        [Query.equal("user_id", userId)]
+        queries
       );
     } catch (error) {
       console.log("Appwrite serive :: getAllBoards :: error", error);
@@ -85,15 +87,15 @@ export class DbService {
   }
 
   // Task API methods
-  async createTask() {}
+  // async createTask() {}
 
-  async updateTask() {}
+  // async updateTask() {}
 
-  async deleteTask() {}
+  // async deleteTask() {}
 
-  async getTask() {}
+  // async getTask() {}
 
-  async getAllTasks() {}
+  // async getAllTasks() {}
 }
 
 const dbService = new DbService();

@@ -5,10 +5,10 @@ import LogoImg from "/logo.svg";
 import ImageElm from "../../components/utils/ImageElm";
 
 import authService from "../../appwrite/auth";
-import useAuthStore from "../../stores/authStore";
+import useFbStore from "../../stores/useStore";
 
 export default function AuthPage() {
-  const setLoginStatus = useAuthStore((s) => s.setLoginStatus);
+  const setLoginStatus = useFbStore((s) => s.setLoginStatus);
 
   const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -21,7 +21,8 @@ export default function AuthPage() {
 
   const handleAuthSubmit = async () => {
     setLoading(true);
-    try { // const userData = 
+    try {
+      // const userData =
       if (isLogin) {
         const userData = await authService.login({
           email: email,

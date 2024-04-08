@@ -12,10 +12,10 @@ import {
 import ModalHeader from "../../components/utils/ModalHeader";
 import { colors } from "../../theme";
 import dbService from "../../appwrite/db";
-import useAuthStore from "../../stores/authStore";
+import useFbStore from "../../stores/useStore";
 
 export default function CreateBoardModal({ closeModal }) {
-  const userData = useAuthStore((s) => s.userData);
+  const { userData, reFetchBoards } = useFbStore();
   const [boardName, setBoardName] = useState("");
   const [color, setColor] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -29,6 +29,7 @@ export default function CreateBoardModal({ closeModal }) {
         user_id: userData.$id,
       });
       closeModal();
+      reFetchBoards();
     } catch (error) {
       setLoading(false);
       console.error(error);

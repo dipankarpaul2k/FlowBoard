@@ -9,7 +9,7 @@ import theme from "./theme";
 import authService from "./appwrite/auth";
 
 // auth store
-import useAuthStore from "./stores/authStore";
+import useFbStore from "./stores/useStore";
 
 // route guards
 import PublicRoutes from "./route_guards/PublicRoutes";
@@ -33,8 +33,8 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const setLoginStatus = useAuthStore((s) => s.setLoginStatus);
-  const loader = useAuthStore((s) => s.loader);
+  const setLoginStatus = useFbStore((s) => s.setLoginStatus);
+  const loader = useFbStore((s) => s.loader);
 
   useEffect(() => {
     authService.getCurrentUser().then((userData) => {
