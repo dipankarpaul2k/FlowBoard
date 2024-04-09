@@ -3,6 +3,7 @@ import { devtools } from "zustand/middleware";
 
 const store = (set) => ({
   // <-----STATES----->
+
   // Auth states
   loader: true,
   isLoggedIn: false,
@@ -10,9 +11,11 @@ const store = (set) => ({
   // Boards states
   boards: [],
   areBoardsFetched: false,
-  // Tasks states
+  // Toasts states
+  toasterMsg: "",
 
   // <-----METHODS----->
+
   // Auth methods
   setLoginStatus: (status, userData) => {
     set(
@@ -32,6 +35,8 @@ const store = (set) => ({
   reFetchBoards: () => {
     set({ areBoardsFetched: false }, false, "reFetchBoards");
   },
+  // Toaster methods
+  setToastMsg: (toasterMsg) => set({ toasterMsg }, false, "setToastMsg"),
 });
 
 const useFbStore = create(devtools(store));

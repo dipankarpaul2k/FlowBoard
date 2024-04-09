@@ -1,26 +1,24 @@
 import { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 // mui library
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import theme from "./theme";
-
 // auth service
 import authService from "./appwrite/auth";
-
 // auth store
 import useFbStore from "./stores/useStore";
-
 // route guards
 import PublicRoutes from "./route_guards/PublicRoutes";
 import PrivateRoutes from "./route_guards/PrivateRoutes";
-
 // pages
 import { AuthPage, BoardsPage } from "./pages";
-
 // components
 import AppLoader from "./components/layout/AppLoader";
+import ToasterManager from "./components/layout/ToasterManager";
 
+// <-------------------->
+
+// Routes
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +29,8 @@ const router = createBrowserRouter([
     element: <PrivateRoutes Component={BoardsPage} />,
   },
 ]);
+
+// <-------------------->
 
 function App() {
   const setLoginStatus = useFbStore((s) => s.setLoginStatus);
@@ -47,6 +47,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <ToasterManager />
       <div className="App">
         <RouterProvider router={router} />
       </div>

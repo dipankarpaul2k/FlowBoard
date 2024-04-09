@@ -3,11 +3,14 @@ import ImageElm from "../../components/utils/ImageElm";
 import LogoImg from "/logo.svg";
 import LogOutIcon from "@mui/icons-material/ExitToApp";
 import authService from "../../appwrite/auth";
+import useFbStore from "../../stores/useStore";
 
 export default function TopBar({ openModal }) {
+  const { setLoginStatus } = useFbStore();
+
   async function handleLogout() {
-    const res = await authService.logout();
-    console.log("TopBar.jsx::res > ", res);
+    await authService.logout();
+    setLoginStatus(false, null);
   }
 
   return (

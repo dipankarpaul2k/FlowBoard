@@ -20,8 +20,9 @@ export default function BoardsPage() {
   useEffect(() => {
     if (!areBoardsFetched) {
       dbService.getAllBoards(userData.$id).then((res) => {
-        console.log("BoardsPage.jsx::res > ", res.documents);
-        setBoards(res.documents);
+        // console.log("BoardsPage.jsx::res.documents > ", res.documents);
+        const reversedArray = res.documents.reverse();
+        setBoards(reversedArray);
       });
     } else {
       setLoading(false);

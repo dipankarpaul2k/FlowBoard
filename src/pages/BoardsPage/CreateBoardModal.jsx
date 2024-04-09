@@ -32,7 +32,7 @@ export default function CreateBoardModal({ closeModal }) {
       reFetchBoards();
     } catch (error) {
       setLoading(false);
-      console.error(error);
+      console.log(error);
     }
   };
 
